@@ -78,6 +78,15 @@ body {
     transform: scale(1.12);
 }
 
+.route-price-marker {
+    border-color: var(--color-primary);
+}
+
+.route-price-marker.is-best {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 1px;
+}
+
 .user-marker {
     width: 17px;
     height: 17px;
@@ -85,4 +94,15 @@ body {
     border-radius: 50%;
     background: #276ef1;
     box-shadow: 0 1px 5px #0005;
+}
+
+.suggested-stop-marker {
+    border: 2px solid white;
+    border-radius: 999px;
+    padding: 6px 9px;
+    color: oklch(27% 0.105 12.094);
+    background: var(--color-warning);
+    box-shadow: 0 2px 8px #1b302344;
+    font: 800 12px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+    white-space: nowrap;
 }

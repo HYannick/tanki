@@ -7,6 +7,7 @@ import { detectCountryAt, findLocation } from '@/services/geocoding'
 import { getCurrentPosition } from '@/services/geolocation'
 
 const RADIUS_KM = 10
+const ROUTE_STOP_RADIUS_KM = 15
 const MAP_SEARCH_THRESHOLD_KM = 0.5
 
 export function useFuelSearch() {
@@ -83,6 +84,16 @@ export function useFuelSearch() {
     if (!mapCenter.value) return
     position.value = { ...mapCenter.value }; stations.value = []; selectedStation.value = null; message.value = 'Recherche dans cette zone…'; applyDetectedCountry(await detectCountryAt(position.value)); loadStations()
   }
+  async function findStationsNear(location: Coordinates): Promise<FuelStation[]> {
+    try {
+      const nearby = await germanyProvider.searchStations({ ...location, radiusKm: ROUTE_STOP_RADIUS_KM, fuelType: fuelType.value })
+      const stationsWithPrice = nearby
+        .filter((item) => item.prices[fuelType.value] !== undefined)
+        .sort((a, b) => (a.prices[fuelType.value]! - b.prices[fuelType.value]!) || (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity))
+      if (!stationsWithPrice.length) throw new Error('Aucune station avec un prix disponible n’a été trouvée autour de cet arrêt.')
+      return stationsWithPrice
+    } finally { refreshGermanyCooldown() }
+  }
   function applyDetectedCountry(detectedCountry: CountryCode | undefined) {
     if (!detectedCountry || detectedCountry === country.value) return
     if (detectedCountry === 'de') filters.value = { ...filters.value, automatedPayment: false }
@@ -97,5 +108,5 @@ export function useFuelSearch() {
   }
   onBeforeUnmount(() => window.clearInterval(cooldownTimer))
 
-  return { country, position, stations, selectedStation, fuelType, sort, filters, state, message, locationQuery, mapCenter, cooldownSeconds, germanyCoolingDown, mapMoved, filteredStations, sortedStations, locateAndLoad, loadStations, searchForLocation, changeFuel, changeFilters, selectStation, searchThisArea, changeCountry }
+  return { country, position, stations, selectedStation, fuelType, sort, filters, state, message, locationQuery, mapCenter, cooldownSeconds, germanyCoolingDown, mapMoved, filteredStations, sortedStations, locateAndLoad, loadStations, searchForLocation, changeFuel, changeFilters, selectStation, searchThisArea, findStationsNear, changeCountry }
 }

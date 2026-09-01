@@ -38,3 +38,9 @@ export function estimateFuelPurchase(profile: VehicleProfile, pricePerLiter: num
     fillsTank: liters >= availableLiters,
   }
 }
+
+export function estimatedRangeKm(profile: VehicleProfile): number {
+  if (profile.consumptionLitersPer100km <= 0) return 0
+  const remainingLiters = profile.tankCapacityLiters * profile.fuelLevelPercent / 100
+  return remainingLiters / profile.consumptionLitersPer100km * 100
+}

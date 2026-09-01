@@ -5,7 +5,7 @@ PWA personnelle de comparaison des prix de carburant en France et en Allemagne, 
 ## Démarrage
 
 1. Copiez `.env.example` vers `.env.local`.
-2. Ajoutez votre clé personnelle `VITE_TANKERKOENIG_API_KEY`.
+2. Ajoutez votre clé personnelle `VITE_TANKERKOENIG_API_KEY` et, pour l’itinéraire, votre jeton public `VITE_MAPBOX_ACCESS_TOKEN`.
 3. Lancez `npm install`, puis `npm run dev`.
 
 `npm run build` crée la version de production et son service worker PWA.
@@ -15,3 +15,5 @@ Le sélecteur **FR / DE** choisit la source de données. La France est prête à
 Une requête retourne Diesel, E5 et E10 pour que les changements de filtre soient instantanés.
 
 Les prix sont fournis par [Tankerkönig](https://creativecommons.tankerkoenig.de/) sous licence CC BY 4.0.
+
+L’itinéraire utilise [Mapbox Directions](https://docs.mapbox.com/api/navigation/directions/). Restreignez le jeton public Mapbox au domaine de déploiement de Tanki avant la mise en production.
