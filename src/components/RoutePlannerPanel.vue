@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<{
   stationState: SearchStatus
   stationMessage: string
   stationCoolingDown: boolean
+  stationCooldownSeconds: number
   vehicle: VehicleProfile
 }>(), { mode: 'desktop' })
 const emit = defineEmits<{ 'update:destinationQuery': [value: string]; plan: []; clear: []; findFirstStopStation: []; navigate: [station: FuelStation] }>()
@@ -71,7 +72,7 @@ const firstStopStationAddress = computed(() => {
         <template v-else>
           <p class="font-semibold">Trouver le meilleur arrêt</p>
           <p class="mt-1 text-xs text-base-content/60">Recherche manuelle autour du premier repère, dans un rayon de 15 km.</p>
-          <button class="btn btn-outline btn-sm mt-3 w-full" type="button" :disabled="stationState === 'loading' || stationCoolingDown" @click="emit('findFirstStopStation')"><span v-if="stationState === 'loading'" class="loading loading-spinner loading-xs" /><PhSignpost v-else :size="16" weight="fill" />{{ stationCoolingDown ? 'Prix bientôt disponibles' : 'Trouver la station la moins chère' }}</button>
+          <button class="btn btn-outline btn-sm mt-3 w-full" type="button" :disabled="stationState === 'loading' || stationCoolingDown" @click="emit('findFirstStopStation')"><span v-if="stationState === 'loading'" class="loading loading-spinner loading-xs" /><PhSignpost v-else :size="16" weight="fill" />{{ stationCoolingDown ? `Disponible dans ${stationCooldownSeconds}s` : 'Trouver la station la moins chère' }}</button>
           <p v-if="stationMessage" class="mt-2 text-xs" :class="stationState === 'error' ? 'text-error' : 'text-base-content/60'">{{ stationMessage }}</p>
         </template>
       </div>

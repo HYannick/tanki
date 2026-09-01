@@ -99,6 +99,9 @@ export function useFuelSearch() {
     if (detectedCountry === 'de') filters.value = { ...filters.value, automatedPayment: false }
     country.value = detectedCountry; stations.value = []; selectedStation.value = null
   }
+  async function syncCountryAt(location: Coordinates) {
+    applyDetectedCountry(await detectCountryAt(location))
+  }
   function changeCountry(nextCountry: CountryCode) {
     if (country.value === nextCountry) return
     if (nextCountry === 'de') filters.value = { ...filters.value, automatedPayment: false }
@@ -108,5 +111,5 @@ export function useFuelSearch() {
   }
   onBeforeUnmount(() => window.clearInterval(cooldownTimer))
 
-  return { country, position, stations, selectedStation, fuelType, sort, filters, state, message, locationQuery, mapCenter, cooldownSeconds, germanyCoolingDown, mapMoved, filteredStations, sortedStations, locateAndLoad, loadStations, searchForLocation, changeFuel, changeFilters, selectStation, searchThisArea, findStationsNear, changeCountry }
+  return { country, position, stations, selectedStation, fuelType, sort, filters, state, message, locationQuery, mapCenter, cooldownSeconds, germanyCoolingDown, mapMoved, filteredStations, sortedStations, locateAndLoad, loadStations, searchForLocation, changeFuel, changeFilters, selectStation, searchThisArea, findStationsNear, syncCountryAt, changeCountry }
 }
