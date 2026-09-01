@@ -4,7 +4,63 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46052438-f53b-4761-9557-bfb8ca4c4781" name="Changes" comment="" />
+    <list default="true" id="46052438-f53b-4761-9557-bfb8ca4c4781" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/files-pasted-by-the-user-je.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/noctule.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/netlify.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icons/tanki-192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icons/tanki-512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icons/tanki-apple-touch-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/tanki-icon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/AppHeader.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/DesktopResultsPanel.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/FuelControls.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/FuelMap.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/LocationSearch.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/MapSearchAction.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/MobileMapToolbar.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/PWAInstallPrompt.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/PWAUpdatePrompt.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/StationBottomSheet.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/StationDetails.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/StationDetailsContent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/StationList.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/StationTimestamp.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/VehicleDrawer.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/composables/useDrawerHistory.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/composables/useFuelSearch.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/composables/useVehicleProfile.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/fuel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/geo.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/vehicle.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/providers/FranceFuelProvider.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/providers/GermanyFuelProvider.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/geocoding.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/geolocation.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/vite-env.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/staging.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tsconfig.app.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tsconfig.node.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vite.config.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,61 +95,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.010598471308185" />
-      <entry key="MS500" value="1.4028114277137977" />
-      <entry key="S2" value="1.9329822896721178" />
-      <entry key="S5" value="2.753607913507997" />
-      <entry key="S10" value="3.5968116294364467" />
-      <entry key="S30" value="4.809689331719831" />
-      <entry key="S60" value="5.323642961980494" />
-      <entry key="M2" value="5.637485841216144" />
-      <entry key="M5" value="5.873093839809836" />
-      <entry key="M10" value="6.654971095295875" />
-      <entry key="M15" value="8.819521970658219" />
-      <entry key="M30" value="20.611539178818443" />
-      <entry key="H1" value="46.396622832757956" />
-      <entry key="H2" value="79.00197094428212" />
-      <entry key="H4" value="107.00040224545472" />
-      <entry key="D1" value="141.32247725923258" />
-      <entry key="W1" value="148.71315374664582" />
+      <entry key="MS100" value="1.8439040650208243" />
+      <entry key="MS500" value="5.783206512495521" />
+      <entry key="S2" value="14.008457301291244" />
+      <entry key="S5" value="22.400417464702485" />
+      <entry key="S10" value="27.86360306209152" />
+      <entry key="S30" value="32.91527624129951" />
+      <entry key="S60" value="34.72758806701285" />
+      <entry key="M2" value="37.929303668976345" />
+      <entry key="M5" value="47.25481852861765" />
+      <entry key="M10" value="56.00777815757065" />
+      <entry key="M15" value="61.4432938194287" />
+      <entry key="M30" value="75.70466954153483" />
+      <entry key="H1" value="102.5166817369132" />
+      <entry key="H2" value="137.2037441805058" />
+      <entry key="H4" value="167.85281900527443" />
+      <entry key="D1" value="206.20648816912595" />
+      <entry key="W1" value="214.54574536930568" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="0.0" />
-      <entry key="S5" value="1.7334006963988328E-139" />
-      <entry key="S10" value="4.163412898571116E-70" />
-      <entry key="S30" value="7.467063211060888E-24" />
-      <entry key="S60" value="2.732592954358399E-12" />
-      <entry key="M2" value="1.6539746996228938E-6" />
-      <entry key="M5" value="0.0056574358797904095" />
-      <entry key="M10" value="0.15323836027670146" />
-      <entry key="M15" value="0.5826803772256914" />
-      <entry key="M30" value="2.648905844854013" />
-      <entry key="H1" value="6.225066102538704" />
-      <entry key="H2" value="9.874530919879849" />
-      <entry key="H4" value="12.650037486458954" />
-      <entry key="D1" value="16.065246574856058" />
-      <entry key="W1" value="16.858481478517227" />
+      <entry key="MS500" value="1.0373250581775623E-127" />
+      <entry key="S2" value="1.7946456775246166E-32" />
+      <entry key="S5" value="2.002588224507942E-13" />
+      <entry key="S10" value="4.477837764575633E-7" />
+      <entry key="S30" value="0.008323705019584028" />
+      <entry key="S60" value="0.11750406739948477" />
+      <entry key="M2" value="0.5224447680070745" />
+      <entry key="M5" value="1.4340630371795864" />
+      <entry key="M10" value="2.113764414400254" />
+      <entry key="M15" value="2.6244133406854475" />
+      <entry key="M30" value="4.523831428723237" />
+      <entry key="H1" value="8.061736269895793" />
+      <entry key="H2" value="11.97144127512718" />
+      <entry key="H4" value="15.073345312104061" />
+      <entry key="D1" value="18.943260922872614" />
+      <entry key="W1" value="19.840197197149344" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.024775708121926643" />
-      <entry key="MS500" value="0.6310892949627871" />
-      <entry key="S2" value="1.5394636778176654" />
-      <entry key="S5" value="2.4632672738978547" />
-      <entry key="S10" value="3.384096157732467" />
-      <entry key="S30" value="4.705256929067863" />
-      <entry key="S60" value="5.264025517532164" />
-      <entry key="M2" value="5.605379807333391" />
-      <entry key="M5" value="5.865228520476089" />
-      <entry key="M10" value="6.80062469140089" />
-      <entry key="M15" value="9.39555284395275" />
-      <entry key="M30" value="23.251544311299792" />
-      <entry key="H1" value="52.610163685912084" />
-      <entry key="H2" value="88.86622544630016" />
-      <entry key="H4" value="119.64343069403147" />
-      <entry key="D1" value="157.38619152328505" />
-      <entry key="W1" value="165.57140551898314" />
+      <entry key="MS100" value="1.7500314335797127" />
+      <entry key="MS500" value="5.7213072027622545" />
+      <entry key="S2" value="13.968743756122716" />
+      <entry key="S5" value="22.373983425650334" />
+      <entry key="S10" value="27.846888117832105" />
+      <entry key="S30" value="32.916441563831654" />
+      <entry key="S60" value="34.83612382392179" />
+      <entry key="M2" value="38.43164778336288" />
+      <entry key="M5" value="48.65941408029186" />
+      <entry key="M10" value="58.096617528348894" />
+      <entry key="M15" value="64.04691054324582" />
+      <entry key="M30" value="80.21186514272075" />
+      <entry key="H1" value="110.56308808934016" />
+      <entry key="H2" value="149.16281956857975" />
+      <entry key="H4" value="182.91795083139473" />
+      <entry key="D1" value="225.14797349955552" />
+      <entry key="W1" value="234.38567667317693" />
     </decayedShown>
   </component>
   <component name="NoctuleProjectWorkspaceSettings">
@@ -114,6 +170,7 @@
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
@@ -154,6 +211,7 @@
       <workItem from="1788215625877" duration="19000" />
       <workItem from="1788215653298" duration="48000" />
       <workItem from="1788215710308" duration="13555000" />
+      <workItem from="1788267565950" duration="1996000" />
     </task>
     <servers />
   </component>
