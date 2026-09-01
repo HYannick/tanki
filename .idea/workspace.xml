@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="46052438-f53b-4761-9557-bfb8ca4c4781" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/Users/ayho/Documents/Codex/2026-08-31/files-pasted-by-the-user-je" value="3IhSmwq7AKiHVodvJs4fsI64miA" />
+    </persistenceIdMap>
+  </component>
+  <component name="DBNavigator.Project.Workspace.Settings">
+    <assistant-settings>
+      <credential-settings>
+        <credentials />
+      </credential-settings>
+      <profile-settings>
+        <profiles />
+      </profile-settings>
+      <mcp-server-settings>
+        <workspace-integration value="false" />
+        <mcp-servers />
+        <mcp-tool-approvals />
+      </mcp-server-settings>
+    </assistant-settings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.010598471308185" />
+      <entry key="MS500" value="1.4028114277137977" />
+      <entry key="S2" value="1.9329822896721178" />
+      <entry key="S5" value="2.753607913507997" />
+      <entry key="S10" value="3.5968116294364467" />
+      <entry key="S30" value="4.809689331719831" />
+      <entry key="S60" value="5.323642961980494" />
+      <entry key="M2" value="5.637485841216144" />
+      <entry key="M5" value="5.873093839809836" />
+      <entry key="M10" value="6.654971095295875" />
+      <entry key="M15" value="8.819521970658219" />
+      <entry key="M30" value="20.611539178818443" />
+      <entry key="H1" value="46.396622832757956" />
+      <entry key="H2" value="79.00197094428212" />
+      <entry key="H4" value="107.00040224545472" />
+      <entry key="D1" value="141.32247725923258" />
+      <entry key="W1" value="148.71315374664582" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="1.7334006963988328E-139" />
+      <entry key="S10" value="4.163412898571116E-70" />
+      <entry key="S30" value="7.467063211060888E-24" />
+      <entry key="S60" value="2.732592954358399E-12" />
+      <entry key="M2" value="1.6539746996228938E-6" />
+      <entry key="M5" value="0.0056574358797904095" />
+      <entry key="M10" value="0.15323836027670146" />
+      <entry key="M15" value="0.5826803772256914" />
+      <entry key="M30" value="2.648905844854013" />
+      <entry key="H1" value="6.225066102538704" />
+      <entry key="H2" value="9.874530919879849" />
+      <entry key="H4" value="12.650037486458954" />
+      <entry key="D1" value="16.065246574856058" />
+      <entry key="W1" value="16.858481478517227" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.024775708121926643" />
+      <entry key="MS500" value="0.6310892949627871" />
+      <entry key="S2" value="1.5394636778176654" />
+      <entry key="S5" value="2.4632672738978547" />
+      <entry key="S10" value="3.384096157732467" />
+      <entry key="S30" value="4.705256929067863" />
+      <entry key="S60" value="5.264025517532164" />
+      <entry key="M2" value="5.605379807333391" />
+      <entry key="M5" value="5.865228520476089" />
+      <entry key="M10" value="6.80062469140089" />
+      <entry key="M15" value="9.39555284395275" />
+      <entry key="M30" value="23.251544311299792" />
+      <entry key="H1" value="52.610163685912084" />
+      <entry key="H2" value="88.86622544630016" />
+      <entry key="H4" value="119.64343069403147" />
+      <entry key="D1" value="157.38619152328505" />
+      <entry key="W1" value="165.57140551898314" />
+    </decayedShown>
+  </component>
+  <component name="NoctuleProjectWorkspaceSettings">
+    <option name="migratedAutodetectionSetting" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3IhSmwq7AKiHVodvJs4fsI64miA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "javascript.preferred.runtime.type.id": "node",
+    "last_opened_file_path": "/Users/ayho/Documents/Codex/2026-08-31/files-pasted-by-the-user-je",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/ayho/Documents/Codex/2026-08-31/files-pasted-by-the-user-je/node_modules/typescript/lib"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-WS-262.10315.84" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SwiftProjectSettings">
+    <option name="detectedToolchain" value="true" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="46052438-f53b-4761-9557-bfb8ca4c4781" name="Changes" comment="" />
+      <created>1788215470267</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1788215470267</updated>
+      <workItem from="1788215472264" duration="11000" />
+      <workItem from="1788215625877" duration="19000" />
+      <workItem from="1788215653298" duration="48000" />
+      <workItem from="1788215710308" duration="13555000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
