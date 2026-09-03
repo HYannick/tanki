@@ -2,12 +2,11 @@
 import {PhClock, PhNavigationArrow, PhStorefront, PhX} from '@phosphor-icons/vue'
 import StationTimestamp from '@/components/StationTimestamp.vue'
 import type {FuelStation, FuelType} from '@/domain/fuel'
-import {estimateFuelPurchase, type VehicleProfile} from '@/domain/vehicle'
+import {estimatedRangeKm, estimateFuelPurchase, type VehicleProfile} from '@/domain/vehicle'
+import { formatFuelPrice, formatStationAddress } from '@/domain/station'
 
 const props = defineProps<{ station: FuelStation; fuelType: FuelType; vehicle: VehicleProfile }>()
 const emit = defineEmits<{ close: []; navigate: [station: FuelStation] }>()
-const price = (station: FuelStation, fuel: FuelType) => station.prices[fuel] === undefined ? 'Prix indisponible' : `${station.prices[fuel]!.toFixed(3).replace('.', ',')} €`
-const address = (station: FuelStation) => [[station.address?.street, station.address?.houseNumber].filter(Boolean).join(' '), [station.address?.postcode, station.address?.city].filter(Boolean).join(' ')].filter(Boolean).join(', ')
 const purchaseEstimate = () => {
   const stationPrice = props.station.prices[props.fuelType]
   return stationPrice === undefined ? null : estimateFuelPurchase(props.vehicle, stationPrice, props.vehicle.budgetEuros)
@@ -25,7 +24,7 @@ const purchaseEstimate = () => {
   <div class="mt-4 flex justify-between items-center">
     <div class="flex items-center justify-between rounded-full bg-base-300 p-3 gap-5"><span
         class="font-bold">{{ fuelType.toUpperCase() }}</span><strong
-        class="text-xl">{{ price(station, fuelType) }}</strong></div>
+        class="text-xl">{{ formatFuelPrice(station.prices[fuelType], 3) }}</strong></div>
     <button class="btn btn-info max-w-36 w-full" @click="emit('navigate', station)">
       <PhNavigationArrow :size="17" weight="fill"/>
       Naviguer
@@ -37,20 +36,20 @@ const purchaseEstimate = () => {
         class="text-[11px] font-bold uppercase tracking-wide text-base-content/55">Votre budget</p>
       <p class="mt-1 text-lg font-bold tabular-nums">{{ vehicle.budgetEuros.toFixed(0) }} €</p>
       <p class="mt-1 text-xs leading-relaxed text-base-content/70">≈
-        {{ purchaseEstimate()!.liters.toFixed(1).replace('.', ',') }} L · jauge à
-        <strong>{{ purchaseEstimate()!.resultingLevelPercent.toFixed(0) }} %</strong></p></div>
+        {{ purchaseEstimate()!.liters.toFixed(1).replace('.', ',') }} L · autonomie à
+        <strong>{{ purchaseEstimate()!.resultingRangeKm.toFixed(0) }} km</strong></p></div>
     <div class="rounded-box bg-primary p-3 text-primary-content"><p
         class="text-[11px] font-bold uppercase tracking-wide text-primary-content/65">Faire le plein</p>
       <p class="mt-1 text-lg font-bold tabular-nums">{{ purchaseEstimate()!.costToFill.toFixed(2).replace('.', ',') }}
         €</p>
-      <p class="mt-1 text-xs leading-relaxed text-primary-content/75">Depuis {{ vehicle.fuelLevelPercent.toFixed(0) }} %
+      <p class="mt-1 text-xs leading-relaxed text-primary-content/75">Depuis {{ estimatedRangeKm(vehicle).toFixed(0) }} km d’autonomie
         <template v-if="purchaseEstimate()!.fillsTank"> · votre budget suffit</template>
       </p>
     </div>
   </section>
   <div class="mt-4">
     <p class="font-bold text-sm">Adresse</p>
-    <p class="text-sm leading-relaxed text-base-content/65">{{ address(station) || 'Adresse indisponible' }}</p>
+    <p class="text-sm leading-relaxed text-base-content/65">{{ formatStationAddress(station) || 'Adresse indisponible' }}</p>
   </div>
   <p v-if="station.isOpen !== undefined" class="mt-3 text-sm font-bold"
      :class="station.isOpen ? 'text-success' : 'text-error'">

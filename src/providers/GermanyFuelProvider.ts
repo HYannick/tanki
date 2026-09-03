@@ -42,12 +42,9 @@ export class GermanyFuelProvider implements FuelProvider {
   }
 
   async getStationDetails(stationId: string) {
-    console.log('sid',stationId)
     const cached = this.detailCache.get(stationId)
-    console.log('cached',cached)
     if (cached) return cached
     const existing = this.detailPending.get(stationId)
-    console.log('existing', existing)
     if (existing) return existing
     const apiKey = import.meta.env.VITE_TANKERKOENIG_API_KEY
     if (!apiKey) throw new Error('La clé API Tankerkönig est absente. Ajoutez-la dans .env.local.')
@@ -58,7 +55,7 @@ export class GermanyFuelProvider implements FuelProvider {
     return request
   }
 
-  private async fetchStations({ latitude, longitude, radius, fuelType, apiKey }: { latitude: number; longitude: number; radius: number; fuelType: FuelType; apiKey: string }) {
+  private async fetchStations({ latitude, longitude, radius, apiKey }: { latitude: number; longitude: number; radius: number; fuelType: FuelType; apiKey: string }) {
     const query = new URLSearchParams({ lat: String(latitude), lng: String(longitude), rad: String(radius), type: 'all', sort: 'dist', apikey: apiKey })
     const controller = new AbortController()
     const timeout = window.setTimeout(() => controller.abort(), 10_000)
@@ -83,15 +80,12 @@ export class GermanyFuelProvider implements FuelProvider {
 
   private async fetchDetails(stationId: string, apiKey: string): Promise<Partial<FuelStation>> {
     const controller = new AbortController()
-    console.log('fetching...');
     const timeout = window.setTimeout(() => controller.abort(), 10_000)
     try {
       const query = new URLSearchParams({ id: stationId, apikey: apiKey })
       const response = await fetch(`${DETAIL_URL}?${query}`, { signal: controller.signal })
-      console.log(response);
       if (!response.ok) throw new Error('Le détail de cette station est momentanément indisponible.')
       const data = await response.json() as TankerDetailResponse
-      console.log(data);
       if (!data.ok || !data.station) throw new Error(data.message || 'Le détail de cette station est indisponible.')
       const station = data.station
       const prices: Partial<Record<FuelType, number>> = {}

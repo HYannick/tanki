@@ -1,4 +1,5 @@
 import type { FuelProvider, FuelStation, FuelType, StationSearchParams } from '@/domain/fuel'
+import { distanceBetweenCoordinatesKm } from '@/domain/geo'
 
 const API_URL = 'https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records'
 const CACHE_MS = 10 * 60_000
@@ -66,7 +67,7 @@ function normalize(record: FranceRecord, originLat: number, originLon: number): 
     isOpen: isCurrentlyOpen(record.horaires), hasAutomatedPayment: record.horaires_automate_24_24 === 'Oui', openingHours,
     services: record.services_service ?? undefined,
     updatedAt: dates.sort((a, b) => b.getTime() - a.getTime())[0], provider: 'france-prix-carburants',
-    distanceKm: distanceKm(originLat, originLon, record.geom.lat, record.geom.lon)
+    distanceKm: distanceBetweenCoordinatesKm({ latitude: originLat, longitude: originLon }, { latitude: record.geom.lat, longitude: record.geom.lon })
   }]
 }
 
@@ -97,9 +98,3 @@ function isCurrentlyOpen(raw: string | null | undefined) {
 }
 
 function filterByFuel(stations: FuelStation[], fuelType: FuelType) { return stations.filter((station) => station.prices[fuelType] !== undefined) }
-function distanceKm(lat1: number, lon1: number, lat2: number, lon2: number) {
-  const radians = (degrees: number) => degrees * Math.PI / 180
-  const dLat = radians(lat2 - lat1), dLon = radians(lon2 - lon1)
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(radians(lat1)) * Math.cos(radians(lat2)) * Math.sin(dLon / 2) ** 2
-  return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-}

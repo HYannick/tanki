@@ -1,5 +1,6 @@
 import type { Coordinates } from '@/domain/geo'
 import { distanceBetweenCoordinatesKm } from '@/domain/geo'
+import type { AsyncStatus } from '@/domain/async'
 
 export interface RoutePlan {
   destinationLabel: string
@@ -9,7 +10,7 @@ export interface RoutePlan {
   durationMinutes: number
 }
 
-export type RouteState = 'idle' | 'loading' | 'ready' | 'error'
+export type RouteState = AsyncStatus
 
 export interface FuelStopSuggestion {
   index: number
@@ -19,8 +20,7 @@ export interface FuelStopSuggestion {
 }
 
 /**
- * Picks a conservative point on the route, preserving 20% of the estimated
- * range. This is only a search target: it deliberately performs no station API call.
+ * A stop remains only a search target: it deliberately performs no station API call.
  */
 function pointAtRouteDistance(route: RoutePlan, targetDistanceKm: number): Coordinates | null {
   let traveledKm = 0
@@ -46,25 +46,23 @@ function pointAtRouteDistance(route: RoutePlan, targetDistanceKm: number): Coord
  * Plans every refuel needed to reach the destination. The first stop uses the
  * fuel currently in the tank; subsequent stops assume a full tank.
  */
-export function suggestFuelStops(route: RoutePlan | null, currentRangeKm: number, fullRangeKm: number, safetyMargin = 0.2): FuelStopSuggestion[] {
-  if (!route || route.geometry.length < 2 || currentRangeKm <= 0 || fullRangeKm <= 0 || route.distanceKm <= currentRangeKm) return []
-
-  const safeCurrentRangeKm = currentRangeKm * (1 - safetyMargin)
-  if (safeCurrentRangeKm <= 0) return []
+export function suggestFuelStops(route: RoutePlan | null, currentRangeKm: number, fullRangeKm: number, safetyReserveKm: number): FuelStopSuggestion[] {
+  const reserveKm = Math.min(Math.max(0, safetyReserveKm), Math.max(0, fullRangeKm - 1))
+  if (!route || route.geometry.length < 2 || currentRangeKm <= 0 || fullRangeKm <= 0 || route.distanceKm <= Math.max(0, currentRangeKm - reserveKm)) return []
 
   const stops: FuelStopSuggestion[] = []
   let legStartKm = 0
   let rangeForLegKm = currentRangeKm
 
-  while (route.distanceKm > legStartKm + rangeForLegKm) {
-    const distanceFromStartKm = legStartKm + rangeForLegKm * (1 - safetyMargin)
+  while (route.distanceKm > legStartKm + Math.max(0, rangeForLegKm - reserveKm)) {
+    const distanceFromStartKm = legStartKm + Math.max(0, rangeForLegKm - reserveKm)
     const location = pointAtRouteDistance(route, distanceFromStartKm)
     if (!location) break
     stops.push({
       index: stops.length + 1,
       location,
       distanceFromStartKm,
-      safetyReserveKm: rangeForLegKm * safetyMargin,
+      safetyReserveKm: Math.min(reserveKm, rangeForLegKm),
     })
     legStartKm = distanceFromStartKm
     rangeForLegKm = fullRangeKm

@@ -1,10 +1,14 @@
-import { computed, onBeforeUnmount, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { distanceBetweenCoordinatesKm, type Coordinates } from '@/domain/geo'
 import type { CountryCode, FuelStation, FuelType, ProviderRegistry, SearchStatus, SortOption, StationFilters } from '@/domain/fuel'
 import { GermanyFuelProvider } from '@/providers/GermanyFuelProvider'
 import { FranceFuelProvider } from '@/providers/FranceFuelProvider'
 import { detectCountryAt, findLocation } from '@/services/geocoding'
 import { getCurrentPosition } from '@/services/geolocation'
+import { MOBILE_MEDIA_QUERY } from '@/domain/layout'
+import { useGermanyCooldown } from '@/composables/useGermanyCooldown'
+import { useStationResults } from '@/composables/useStationResults'
+import { useStationDetails } from '@/composables/useStationDetails'
 
 const RADIUS_KM = 10
 const ROUTE_STOP_RADIUS_KM = 15
@@ -17,6 +21,7 @@ export function useFuelSearch() {
   const position = ref<Coordinates | null>(null)
   const stations = ref<FuelStation[]>([])
   const selectedStation = ref<FuelStation | null>(null)
+  const { selectStation } = useStationDetails(providers, country, selectedStation)
   const fuelType = ref<FuelType>('diesel')
   const sort = ref<SortOption>('price')
   const filters = ref<StationFilters>({ openNow: false, automatedPayment: false })
@@ -24,12 +29,10 @@ export function useFuelSearch() {
   const message = ref('Autorisez votre position pour voir les prix autour de vous.')
   const locationQuery = ref('')
   const mapCenter = ref<Coordinates | null>(null)
-  const cooldownSeconds = ref(0)
-  let cooldownTimer: number | undefined
+  const { cooldownSeconds, refresh: refreshGermanyCooldown } = useGermanyCooldown(germanyProvider)
   const germanyCoolingDown = computed(() => country.value === 'de' && cooldownSeconds.value > 0)
   const mapMoved = computed(() => Boolean(position.value && mapCenter.value) && distanceBetweenCoordinatesKm(position.value!, mapCenter.value!) >= MAP_SEARCH_THRESHOLD_KM)
-  const filteredStations = computed(() => stations.value.filter((station) => (!filters.value.openNow || station.isOpen === true) && (!filters.value.automatedPayment || station.hasAutomatedPayment === true)))
-  const sortedStations = computed(() => [...filteredStations.value].sort((a, b) => sort.value === 'distance' ? (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity) : (a.prices[fuelType.value] ?? Infinity) - (b.prices[fuelType.value] ?? Infinity)))
+  const { filteredStations, sortedStations } = useStationResults(stations, fuelType, filters, sort)
 
   async function locateAndLoad() {
     state.value = 'loading'; message.value = 'Localisation et recherche des stations…'
@@ -41,18 +44,13 @@ export function useFuelSearch() {
     state.value = 'loading'; message.value = 'Mise à jour des prix…'
     try {
       stations.value = await providers[country.value].searchStations({ ...position.value, radiusKm: RADIUS_KM, fuelType: fuelType.value })
-      selectedStation.value = window.matchMedia('(max-width: 680px)').matches ? null : stations.value[0] ?? null
+      selectedStation.value = window.matchMedia(MOBILE_MEDIA_QUERY).matches ? null : stations.value[0] ?? null
       state.value = 'ready'; message.value = stations.value.length ? `${stations.value.length} stations dans un rayon de ${RADIUS_KM} km.` : 'Aucune station trouvée dans ce rayon.'
       if (country.value === 'de') refreshGermanyCooldown()
     } catch (error) {
       if (country.value === 'de') refreshGermanyCooldown()
       state.value = 'error'; message.value = error instanceof Error ? error.message : 'Impossible de récupérer les prix.'
     }
-  }
-  function refreshGermanyCooldown() {
-    window.clearInterval(cooldownTimer)
-    const update = () => { cooldownSeconds.value = Math.ceil(germanyProvider.getCooldownRemainingMs() / 1000); if (!cooldownSeconds.value) window.clearInterval(cooldownTimer) }
-    update(); if (cooldownSeconds.value) cooldownTimer = window.setInterval(update, 250)
   }
   async function searchForLocation() {
     state.value = 'loading'; message.value = 'Recherche du lieu…'
@@ -61,38 +59,21 @@ export function useFuelSearch() {
   }
   function changeFuel(fuel: FuelType) { fuelType.value = fuel; if (position.value) loadStations() }
   function changeFilters(nextFilters: StationFilters) { filters.value = nextFilters }
-  async function selectStation(station: FuelStation) {
-    selectedStation.value = station
-    const provider = providers[country.value]
-    if (!provider.getStationDetails) return
-    try {
-      console.log('search details')
-      const details = await provider.getStationDetails(station.id)
-      console.log(details)
-      if (selectedStation.value?.id !== station.id) return
-      selectedStation.value = {
-        ...station, ...details,
-        location: details.location ?? station.location,
-        address: { ...station.address, ...details.address },
-        prices: { ...station.prices, ...details.prices },
-      }
-    } catch {
-      // The basic list data remains usable if an optional detail request fails.
-    }
-  }
   async function searchThisArea() {
     if (!mapCenter.value) return
     position.value = { ...mapCenter.value }; stations.value = []; selectedStation.value = null; message.value = 'Recherche dans cette zone…'; applyDetectedCountry(await detectCountryAt(position.value)); loadStations()
   }
-  async function findStationsNear(location: Coordinates): Promise<FuelStation[]> {
+  async function findStationsNear(location: Coordinates): Promise<{ country: CountryCode; stations: FuelStation[] }> {
+    const stopCountry = await detectCountryAt(location)
+    if (!stopCountry) throw new Error('Impossible d’identifier le pays de cet arrêt.')
     try {
-      const nearby = await germanyProvider.searchStations({ ...location, radiusKm: ROUTE_STOP_RADIUS_KM, fuelType: fuelType.value })
+      const nearby = await providers[stopCountry].searchStations({ ...location, radiusKm: ROUTE_STOP_RADIUS_KM, fuelType: fuelType.value })
       const stationsWithPrice = nearby
         .filter((item) => item.prices[fuelType.value] !== undefined)
         .sort((a, b) => (a.prices[fuelType.value]! - b.prices[fuelType.value]!) || (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity))
       if (!stationsWithPrice.length) throw new Error('Aucune station avec un prix disponible n’a été trouvée autour de cet arrêt.')
-      return stationsWithPrice
-    } finally { refreshGermanyCooldown() }
+      return { country: stopCountry, stations: stationsWithPrice }
+    } finally { if (stopCountry === 'de') refreshGermanyCooldown() }
   }
   function applyDetectedCountry(detectedCountry: CountryCode | undefined) {
     if (!detectedCountry || detectedCountry === country.value) return
@@ -109,7 +90,5 @@ export function useFuelSearch() {
     message.value = nextCountry === 'fr' ? 'France sélectionnée. Localisez-vous pour charger le flux officiel.' : 'Allemagne sélectionnée. Ajoutez votre clé Tankerkönig puis localisez-vous.'
     if (position.value) loadStations()
   }
-  onBeforeUnmount(() => window.clearInterval(cooldownTimer))
-
-  return { country, position, stations, selectedStation, fuelType, sort, filters, state, message, locationQuery, mapCenter, cooldownSeconds, germanyCoolingDown, mapMoved, filteredStations, sortedStations, locateAndLoad, loadStations, searchForLocation, changeFuel, changeFilters, selectStation, searchThisArea, findStationsNear, syncCountryAt, changeCountry }
+  return { country, position, stations, selectedStation, fuelType, sort, filters, state, message, locationQuery, mapCenter, cooldownSeconds, germanyCooldownSeconds: cooldownSeconds, germanyCoolingDown, mapMoved, filteredStations, sortedStations, locateAndLoad, loadStations, searchForLocation, changeFuel, changeFilters, selectStation, searchThisArea, findStationsNear, syncCountryAt, changeCountry }
 }

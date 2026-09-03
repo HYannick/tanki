@@ -4,6 +4,7 @@ import maplibregl, {type Marker} from 'maplibre-gl'
 import type {FuelStation, FuelType} from '@/domain/fuel'
 import type { Coordinates } from '@/domain/geo'
 import type { FuelStopSuggestion, RoutePlan } from '@/domain/route'
+import { getStationPriceTone } from '@/domain/station'
 
 const ROUTE_SOURCE_ID = 'itinerary-route'
 const ROUTE_LAYER_ID = 'itinerary-route-line'
@@ -30,19 +31,6 @@ const price = (station: FuelStation) => {
   const value = station.prices[props.fuelType]
   return value === undefined ? '—' : `${value.toFixed(2)} €`
 }
-const priceTone = (station: FuelStation) => {
-  return priceToneAmong(station, props.stations)
-}
-const priceToneAmong = (station: FuelStation, stations: FuelStation[]) => {
-  const prices = stations.map((item) => item.prices[props.fuelType]).filter((value): value is number => value !== undefined)
-  const value = station.prices[props.fuelType]
-  const min = Math.min(...prices), max = Math.max(...prices)
-  if (value === undefined || !Number.isFinite(min) || max === min) return 'green'
-  const relativePosition = (value - min) / (max - min)
-  if (relativePosition <= 1 / 3) return 'green'
-  if (relativePosition <= 2 / 3) return 'yellow'
-  return 'red'
-}
 const clearMarkers = () => {
   stationMarkers.forEach((marker) => marker.remove());
   stationMarkers = []
@@ -53,7 +41,7 @@ function renderStations() {
   clearMarkers()
   stationMarkers = props.stations.map((station) => {
     const element = document.createElement('button')
-    element.className = `price-marker price-marker--${priceTone(station)}${props.selectedStation?.id === station.id ? ' is-selected' : ''}`
+    element.className = `price-marker price-marker--${getStationPriceTone(station, props.stations, props.fuelType)}${props.selectedStation?.id === station.id ? ' is-selected' : ''}`
     element.type = 'button';
     element.textContent = price(station);
     element.title = station.name
@@ -132,7 +120,7 @@ function renderRouteStopStations() {
   routeStopStationMarkers.forEach((marker) => marker.remove())
   routeStopStationMarkers = props.routeStopStations.map((station, index) => {
     const element = document.createElement('button')
-    element.className = `price-marker route-price-marker price-marker--${priceToneAmong(station, props.routeStopStations)}${index === 0 ? ' is-best' : ''}`
+    element.className = `price-marker route-price-marker price-marker--${getStationPriceTone(station, props.routeStopStations, props.fuelType)}${index === 0 ? ' is-best' : ''}`
     element.type = 'button'
     element.textContent = price(station)
     element.title = `${station.name} · ${station.address?.street ?? ''}`

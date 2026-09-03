@@ -1,11 +1,12 @@
 import type { Coordinates } from './geo'
+import type { AsyncStatus } from './async'
 
 export const FUEL_TYPES = ['diesel', 'e5', 'e10'] as const
 export const SORT_OPTIONS = ['price', 'distance'] as const
 export type FuelType = typeof FUEL_TYPES[number]
 export type SortOption = typeof SORT_OPTIONS[number]
 export type CountryCode = 'de' | 'fr'
-export type SearchStatus = 'idle' | 'loading' | 'ready' | 'error'
+export type SearchStatus = AsyncStatus
 
 export interface StationFilters {
   openNow: boolean
