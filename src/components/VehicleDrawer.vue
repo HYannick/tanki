@@ -5,7 +5,7 @@ import { FUEL_TYPES, type CountryCode, type FuelType, type StationFilters } from
 import type { VehicleProfile } from '@/domain/vehicle'
 
 const props = defineProps<{ open: boolean; profile: VehicleProfile; country: CountryCode; filters: StationFilters }>()
-const emit = defineEmits<{ close: []; 'update:profile': [profile: VehicleProfile]; countryChange: [country: CountryCode]; filtersChange: [filters: StationFilters] }>()
+const emit = defineEmits<{ close: []; 'update:profile': [profile: VehicleProfile]; filtersChange: [filters: StationFilters] }>()
 
 const tankCapacityDraft = ref(String(props.profile.tankCapacityLiters))
 const tankCapacityError = ref('')
@@ -38,7 +38,6 @@ function commitTankCapacity() {
             <button class="btn btn-circle btn-sm btn-ghost" aria-label="Fermer" @click="$emit('close')"><PhX :size="20" weight="bold" /></button>
           </header>
           <div class="flex-1 flex flex-col gap-4 overflow-y-auto p-5">
-            <section class="sm:hidden"><p class="mb-2 text-sm font-semibold">Zone de prix</p><div class="join w-full"><button class="btn join-item flex-1" :class="{ 'btn-primary': country === 'fr' }" @click="emit('countryChange', 'fr')">France</button><button class="btn join-item flex-1" :class="{ 'btn-primary': country === 'de' }" @click="emit('countryChange', 'de')">Allemagne</button></div></section>
             <section class="sm:hidden"><p class="mb-2 text-sm font-semibold">Filtres</p><div class="flex flex-wrap gap-2"><button class="btn btn-sm" :class="{ 'btn-primary': filters.openNow }" @click="emit('filtersChange', { ...filters, openNow: !filters.openNow })">Ouvert maintenant</button><button v-if="country === 'fr'" class="btn btn-sm" :class="{ 'btn-primary': filters.automatedPayment }" @click="emit('filtersChange', { ...filters, automatedPayment: !filters.automatedPayment })">Automate 24/24</button></div></section>
             <label class="form-control"><span class="label-text mb-2 font-semibold">Carburant</span><select class="select select-bordered w-full" :value="profile.fuelType" @change="updateProfile({ fuelType: ($event.target as HTMLSelectElement).value as FuelType })"><option v-for="fuel in FUEL_TYPES" :key="fuel" :value="fuel">{{ fuel.toUpperCase() }}</option></select></label>
             <label class="form-control"><span class="label-text mb-2 font-semibold">Capacité du réservoir</span><div class="join w-full"><input class="input input-bordered join-item w-full" :class="{ 'input-error': tankCapacityError }" type="number" step="1" :value="tankCapacityDraft" @input="tankCapacityDraft = ($event.target as HTMLInputElement).value; tankCapacityError = ''" @blur="commitTankCapacity"><span class="btn join-item pointer-events-none">L</span></div><span class="label-text-alt mt-1" :class="tankCapacityError ? 'text-error' : 'text-base-content/55'">{{ tankCapacityError || 'Minimum : 15 L.' }}</span></label>

@@ -41,7 +41,7 @@ watch(() => props.station, (station) => { if (station) snapPoint.value = STATION
         <button class="btn btn-circle btn-ghost btn-sm absolute right-4 top-2" aria-label="Fermer et effacer l’itinéraire" @click="emit('clear')"><PhX :size="20" weight="bold" /></button>
         <div class="h-[calc(82dvh-18px)] px-5 pb-24 pt-3 overscroll-contain" :class="snapPoint === INITIAL_SNAP_POINT ? 'overflow-hidden' : 'overflow-y-auto'">
           <div class="space-y-3">
-            <RouteSummary :route="route" :suggested-stops="suggestedStops" :vehicle="vehicle" :show-destination="true" />
+            <RouteSummary :route="route" :suggested-stops="suggestedStops" :vehicle="vehicle" />
             <RouteRangeControl :vehicle="vehicle" @update="emit('updateRangeKm', $event)" />
             <RouteStopRecommendation v-if="suggestedStops.length" :show-action="false" :country="stopCountry" :station="station" :station-count="stationCount" :fuel-type="vehicle.fuelType" :state="stationState" :message="stationMessage" :cooling-down="stationCoolingDown" :cooldown-seconds="stationCooldownSeconds" />
           </div>

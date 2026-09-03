@@ -5,7 +5,6 @@ import { GermanyFuelProvider } from '@/providers/GermanyFuelProvider'
 import { FranceFuelProvider } from '@/providers/FranceFuelProvider'
 import { detectCountryAt, findLocation } from '@/services/geocoding'
 import { getCurrentPosition } from '@/services/geolocation'
-import { MOBILE_MEDIA_QUERY } from '@/domain/layout'
 import { useGermanyCooldown } from '@/composables/useGermanyCooldown'
 import { useStationResults } from '@/composables/useStationResults'
 import { useStationDetails } from '@/composables/useStationDetails'
@@ -42,9 +41,9 @@ export function useFuelSearch() {
   async function loadStations() {
     if (!position.value) return locateAndLoad()
     state.value = 'loading'; message.value = 'Mise à jour des prix…'
+    selectedStation.value = null
     try {
       stations.value = await providers[country.value].searchStations({ ...position.value, radiusKm: RADIUS_KM, fuelType: fuelType.value })
-      selectedStation.value = window.matchMedia(MOBILE_MEDIA_QUERY).matches ? null : stations.value[0] ?? null
       state.value = 'ready'; message.value = stations.value.length ? `${stations.value.length} stations dans un rayon de ${RADIUS_KM} km.` : 'Aucune station trouvée dans ce rayon.'
       if (country.value === 'de') refreshGermanyCooldown()
     } catch (error) {
@@ -83,12 +82,5 @@ export function useFuelSearch() {
   async function syncCountryAt(location: Coordinates) {
     applyDetectedCountry(await detectCountryAt(location))
   }
-  function changeCountry(nextCountry: CountryCode) {
-    if (country.value === nextCountry) return
-    if (nextCountry === 'de') filters.value = { ...filters.value, automatedPayment: false }
-    country.value = nextCountry; stations.value = []; selectedStation.value = null
-    message.value = nextCountry === 'fr' ? 'France sélectionnée. Localisez-vous pour charger le flux officiel.' : 'Allemagne sélectionnée. Ajoutez votre clé Tankerkönig puis localisez-vous.'
-    if (position.value) loadStations()
-  }
-  return { country, position, stations, selectedStation, fuelType, sort, filters, state, message, locationQuery, mapCenter, cooldownSeconds, germanyCooldownSeconds: cooldownSeconds, germanyCoolingDown, mapMoved, filteredStations, sortedStations, locateAndLoad, loadStations, searchForLocation, changeFuel, changeFilters, selectStation, searchThisArea, findStationsNear, syncCountryAt, changeCountry }
+  return { country, position, selectedStation, fuelType, sort, filters, state, message, locationQuery, mapCenter, cooldownSeconds, germanyCoolingDown, mapMoved, filteredStations, sortedStations, locateAndLoad, searchForLocation, changeFuel, changeFilters, selectStation, searchThisArea, findStationsNear, syncCountryAt }
 }
