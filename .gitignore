@@ -3,3 +3,4 @@ dist/
 .env.local
 work/npm-cache/
 .idea
+.idea/
