@@ -12,7 +12,7 @@ function locate() { clearFocus(); emit('locate') }
 </script>
 
 <template>
-  <form :class="mode === 'mobile' ? 'flex w-full justify-between gap-3 rounded-full bg-base-100 p-1.5' : 'flex gap-2 border-b border-base-200 px-4 py-2.5'" @submit.prevent="submit">
+  <form :class="mode === 'mobile' ? 'flex w-full justify-between gap-3 bg-base-100 px-4 pt-4 border-t border-t-zinc-200' : 'flex gap-2 border-b border-base-200 px-4 py-2.5'" @submit.prevent="submit">
     <div class="relative flex-1"><input :value="modelValue" :class="mode === 'mobile' ? 'input  input-lg w-full pr-10' : 'input input-lg w-full pr-10'" aria-label="Ville ou adresse" autocomplete="street-address" placeholder="Ville ou adresse" @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)" />
       <button type="button" class="btn btn-ghost btn-xs absolute right-1 top-1/2 -translate-y-1/2" :disabled="loading" title="Me géolocaliser" aria-label="Me géolocaliser" @click="locate"><PhCrosshair :size="18" /></button>
     </div>
